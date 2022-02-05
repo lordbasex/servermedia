@@ -23,6 +23,7 @@ func main() {
 go mod init servermedia
 go get -v
 go build -o servermedia
+chmod 777 servermedia
 ./servermedia
 #go run main.go
 ```
