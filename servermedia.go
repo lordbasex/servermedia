@@ -1,34 +1,40 @@
 package servermedia
 
 import (
-        "log"
-        "net/http"
-        "os"
+	"log"
+	"net/http"
+	"os"
 )
 
 /**
 * Get env variables
 **/
 func goDotEnvVariable(key string) string {
-        return os.Getenv(key)
+	return os.Getenv(key)
 }
 
 var serverMediaPort string
+var serverMediaDir string
 
 func Start() {
 
-        serverMediaPort = goDotEnvVariable("SERVER_MEDIA_PORT")
-        if serverMediaPort == "" {
-                serverMediaPort = "8011"
-        }
+	serverMediaPort = goDotEnvVariable("SERVER_MEDIA_PORT")
+	if serverMediaPort == "" {
+		serverMediaPort = "8011"
+	}
 
-        fs := http.FileServer(http.Dir("./audios"))
-        http.Handle("/", fs)
+	serverMediaDir = goDotEnvVariable("SERVER_MEDIA_DIR")
+	if serverMediaDir == "" {
+		serverMediaDir = "audios"
+	}
 
-        log.Println("Server Media: http://0.0.0.0:" + serverMediaPort + " running...")
+	fs := http.FileServer(http.Dir("./" + serverMediaDir))
+	http.Handle("/", fs)
 
-        err := http.ListenAndServe(":"+serverMediaPort, nil)
-        if err != nil {
-                log.Fatal(err)
-        }
+	log.Println("Server Media: DIR: ./" + serverMediaDir + " | URL: http://0.0.0.0:" + serverMediaPort + " running...")
+
+	err := http.ListenAndServe(":"+serverMediaPort, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
