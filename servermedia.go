@@ -9,6 +9,7 @@ import (
 /**
 * Get env variables
 **/
+
 func goDotEnvVariable(key string) string {
 	return os.Getenv(key)
 }
