@@ -14,16 +14,14 @@ func goDotEnvVariable(key string) string {
 }
 
 var serverMediaPort string
-var serverMediaDir string
 
-func Start() {
+func Start(serverMediaDir string) {
 
 	serverMediaPort = goDotEnvVariable("SERVER_MEDIA_PORT")
 	if serverMediaPort == "" {
 		serverMediaPort = "8011"
 	}
 
-	serverMediaDir = goDotEnvVariable("SERVER_MEDIA_DIR")
 	if serverMediaDir == "" {
 		serverMediaDir = "/audios"
 	}
